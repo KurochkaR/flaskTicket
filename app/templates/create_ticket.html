@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<div class="container">
+    <form class="create-ticket" action="{{ action }}" method="POST">
+            <h2>Create new ticket</h2>
+            {{ form.csrf_token }}
+             {% for field in form %}
+            {% if field.type != 'CSRFTokenField' %}
+            {% if field.render_kw and 'disabled' in field.render_kw %}
+                <input type="hidden" name="{{field.name}}" value="{{ field.data }}">
+            {% else %}
+                <div class="form-group">
+                    {{ field.label }}
+                    <div class="col-sm-12">
+                    {% if field.type in ['StringField', 'TextAreaField'] %}
+                            {{ field(class_="form-control" + (' is-invalid' if field.errors else '')) }}
+                        {% else %}
+                            {{ field(class_="form-select" + (' is-invalid' if field.errors else '')) }}
+                        {% endif %}
+                    </div>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback" style="display:block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <div class="center">
+            <button type="submit" class="btn btn-primary">{{ button }}</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

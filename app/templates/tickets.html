@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+<div class="ticket-container">
+  <h3>Tickets table</h3>
+    <div class="row center">
+      <div class="col-md-6">
+      </div>
+      <div class="col-md-6 text-right">
+        <a href="{{ url_for('ticket.new_ticket') }}" class="btn btn-success" id="create-ticket-btn">Create New Ticket</a>
+      </div>
+    </div>
+    <div class="row table-container">
+      <div class="col-md-12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-table-body">
+          {% for ticket in tickets %}
+            <tr>
+            <td class="ticket-title" data-id="{{ticket.id}}">{{ticket.title}}</td>
+            <td class="ticket-description">{{ticket.description}}</td>
+            <td class="ticket-status">{{ticket.status.value}}</td>
+            <td>
+              <i class="fas fa-pen" title="Edit"></i>
+              <span style="margin-right: 10px;"></span>
+              <i class="fas fa-trash" title="Delete"></i>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

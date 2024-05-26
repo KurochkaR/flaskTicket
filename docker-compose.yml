@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:13.8
+    container_name: db
+    restart: always
+    ports:
+      - "5454:5432"
+    env_file:
+      - .env
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} -t 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+
+  flask:
+    container_name: flask-ticket
+    build: .
+    ports:
+      - "5005:5000"
+    environment:
+      FLASK_APP: "run.py"
+      FLASK_ENV: "development"
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy

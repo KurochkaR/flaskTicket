@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} {{ title }} {% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <form action="{{ url_for('auth.login') }}" method="POST">
+        <h2>Login Form</h2>
+            {{ form.csrf_token }}
+             {% for field in form %}
+            {% if field.type != 'CSRFTokenField' %}
+                <div class="form-group">
+                    {{ field.label }}
+                    <div class="col-sm-12">
+                    {{ field(class_="form-control" + (' is-invalid' if field.errors else '')) }}
+                    </div>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="invalid-feedback" style="display:block">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+        {% endif %}
+        {% endfor %}
+        <div class="center">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

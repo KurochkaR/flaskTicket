@@ -1,0 +1,5 @@
+DATABASE_URL = "postgresql://postgres:pass@postgres:5432/tickets"
+SECRET_KEY = "vdlhciwkjebrfk4juifd8clk3ld"
+POSTGRES_PASSWORD = pass
+POSTGRES_DB = tickets
+POSTGRES_USER = postgres
